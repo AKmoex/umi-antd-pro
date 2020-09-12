@@ -7,7 +7,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 
-//import '../../static/css/index.css';
+import '../static/css/index.css';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;

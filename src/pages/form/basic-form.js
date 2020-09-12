@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
-import { Breadcrumb, Form, Input, Checkbox, DatePicker, Tooltip } from 'antd';
+import {
+  Breadcrumb,
+  Form,
+  Input,
+  Checkbox,
+  DatePicker,
+  Tooltip,
+  InputNumber,
+} from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 class List extends Component {
   render() {
     const layout = {
       labelCol: {
-        span: 6,
+        span: 7,
       },
       wrapperCol: {
         span: 9,
@@ -51,15 +59,23 @@ class List extends Component {
             <Form.Item
               label={
                 <span>
-                  Nickname&nbsp;
-                  <Tooltip title="What do you want others to call you?">
+                  客户(选填)&nbsp;
+                  <Tooltip title="目标的服务对象">
                     <ExclamationCircleOutlined />
                   </Tooltip>
                 </span>
               }
-              name="title"
+              name="client"
             >
               <Input />
+            </Form.Item>
+
+            <Form.Item label="邀评人" name="invitor">
+              <Input />
+            </Form.Item>
+
+            <Form.Item label="权重(选填)">
+              <InputNumber min={0} max={100} />
             </Form.Item>
             <Form.Item name="remember" valuePropName="checked">
               <Checkbox>Remember me</Checkbox>

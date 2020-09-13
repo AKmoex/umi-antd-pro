@@ -1,4 +1,4 @@
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout, Menu } from 'antd';
 import {
   DesktopOutlined,
   PieChartOutlined,
@@ -6,6 +6,7 @@ import {
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons';
+import { Link } from 'umi';
 
 import '../static/css/index.css';
 
@@ -18,7 +19,6 @@ class SiderDemo extends React.Component {
   };
 
   onCollapse = collapsed => {
-    console.log(collapsed);
     this.setState({ collapsed });
   };
 
@@ -39,8 +39,12 @@ class SiderDemo extends React.Component {
               Option 2
             </Menu.Item>
             <SubMenu key="sub1" icon={<UserOutlined />} title="表单页">
-              <Menu.Item key="3">基础表单</Menu.Item>
-              <Menu.Item key="4">分布表单</Menu.Item>
+              <Menu.Item key="3">
+                <Link to="/form/basic-form">基础表单</Link>
+              </Menu.Item>
+              <Menu.Item key="4">
+                <Link to="/form/step-form">分步表单</Link>
+              </Menu.Item>
               <Menu.Item key="5">高级表单</Menu.Item>
             </SubMenu>
             <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
@@ -51,11 +55,8 @@ class SiderDemo extends React.Component {
           </Menu>
         </Sider>
         <Layout className="site-layout">
-          <Header
-            className="site-layout-background"
-            style={{ padding: '0 15px', height: '48px' }}
-          />
-          <Content style={{ margin: '0 16px' }}>{this.props.children}</Content>
+          <Header className="site-layout-background header" />
+          <Content>{this.props.children}</Content>
           <Footer style={{ textAlign: 'center' }}>
             Ant Design ©2018 Created by Ant UED
           </Footer>

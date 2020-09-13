@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
   Form,
   Input,
-  Checkbox,
+  Space,
   DatePicker,
   Tooltip,
   InputNumber,
@@ -29,6 +29,13 @@ class List extends Component {
         span: 9,
       },
     };
+    const tailLayout = {
+      wrapperCol: {
+        offset: 7,
+        span: 16,
+      },
+    };
+
     const rangeConfig = {
       rules: [
         {
@@ -130,15 +137,17 @@ class List extends Component {
                 </Form.Item>
               ) : null}
             </Form.Item>
-
-            <Form.Item>
-              <Button
-                type="primary"
-                htmlType="submit"
-                onClick={this.handleClick.bind(this)}
-              >
-                Submit
-              </Button>
+            <Form.Item {...tailLayout}>
+              <Space>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  onClick={this.handleButtonClick.bind(this)}
+                >
+                  提交
+                </Button>
+                <Button>保存</Button>
+              </Space>
             </Form.Item>
           </Form>
         </div>
@@ -152,8 +161,15 @@ class List extends Component {
       value: e.target.value,
     });
   }
-  handleClick() {
-    console.log(this.formRef.current.getFieldsValue());
+  handleButtonClick() {
+    this.formRef.current
+      .validateFields()
+      .then(value => {
+        console.log(value);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 }
 

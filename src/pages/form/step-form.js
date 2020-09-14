@@ -12,7 +12,7 @@ import {
 
 import BaseInfo from '../components/BaseInfo.js';
 
-class List extends Component {
+class StepForm extends Component {
   state = {
     current: 0,
     initialValues: {
@@ -204,4 +204,4 @@ class List extends Component {
   }
 }
 
-export default List;
+export default StepForm;

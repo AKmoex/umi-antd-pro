@@ -14,7 +14,7 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 import BaseInfo from '../components/BaseInfo.js';
 
-class List extends Component {
+class BasicForm extends Component {
   state = {
     value: 1,
   };
@@ -172,4 +172,4 @@ class List extends Component {
   }
 }
 
-export default List;
+export default BasicForm;

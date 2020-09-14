@@ -45,7 +45,9 @@ class SiderDemo extends React.Component {
               <Menu.Item key="4">
                 <Link to="/form/step-form">分步表单</Link>
               </Menu.Item>
-              <Menu.Item key="5">高级表单</Menu.Item>
+              <Menu.Item key="5">
+                <Link to="/form/advanced-form">高级表单</Link>
+              </Menu.Item>
             </SubMenu>
             <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
               <Menu.Item key="6">Team 1</Menu.Item>

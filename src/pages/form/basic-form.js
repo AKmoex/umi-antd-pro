@@ -156,7 +156,6 @@ class List extends Component {
   }
 
   handleChangeRadio(e) {
-    console.log(e.target.value);
     this.setState({
       value: e.target.value,
     });

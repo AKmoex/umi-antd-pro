@@ -240,7 +240,7 @@ class AdvancedForm extends Component {
           </Form>
         </Card>
         <Card title="成员管理" style={{ margin: '20px 20px' }}>
-          <Form ref={this.formRef3}>
+          <Form ref={this.formRef1}>
             <Table
               columns={columns}
               dataSource={this.state.data}

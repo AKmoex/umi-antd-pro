@@ -11,6 +11,7 @@ import {
   Select,
 } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { connect } from 'umi';
 
 import BaseInfo from '../components/BaseInfo.js';
 
@@ -45,6 +46,7 @@ class BasicForm extends Component {
         },
       ],
     };
+
     return (
       <div>
         <BaseInfo
@@ -142,7 +144,7 @@ class BasicForm extends Component {
                 <Button
                   type="primary"
                   htmlType="submit"
-                  onClick={this.handleButtonClick.bind(this)}
+                  onClick={this.handleButtonClick}
                 >
                   提交
                 </Button>
@@ -160,16 +162,22 @@ class BasicForm extends Component {
       value: e.target.value,
     });
   }
-  handleButtonClick() {
-    this.formRef.current
-      .validateFields()
+  handleButtonClick = () => {
+    let { dispatch } = this.props;
+    let { validateFields } = this.formRef.current;
+    validateFields()
       .then(value => {
         console.log(value);
+
+        dispatch({
+          type: 'form/getValue',
+          payload: value,
+        });
       })
       .catch(err => {
         console.log(err);
       });
-  }
+  };
 }
-
-export default BasicForm;
+// connect 是 高阶组件 HOC
+export default connect()(BasicForm);

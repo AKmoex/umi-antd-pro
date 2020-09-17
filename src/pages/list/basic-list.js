@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import BaseInfo from '../components/BaseInfo.js';
 
-import { Card, Row, Col } from 'antd';
+import { Card, Row, Col, Radio, Input } from 'antd';
 import '../../static/css/index.css';
 
 class BasicList extends Component {
@@ -38,8 +38,35 @@ class BasicList extends Component {
             </Col>
           </Row>
         </Card>
+        <Card
+          title="你好"
+          style={{ margin: '20px 20px' }}
+          extra={
+            <div>
+              <Radio.Group
+                onChange={this.handleStatusChange.bind(this)}
+                defaultValue="a"
+              >
+                <Radio.Button value="a">全部</Radio.Button>
+                <Radio.Button value="b">进行中</Radio.Button>
+                <Radio.Button value="c">等待中</Radio.Button>
+              </Radio.Group>
+              <Input.Search
+                placeholder="input search text"
+                onSearch={value => console.log(value)}
+                style={{ width: '300px', marginLeft: '20px' }}
+              />
+            </div>
+          }
+        >
+          <p>你噶</p>
+          <p>你</p>
+        </Card>
       </div>
     );
+  }
+  handleStatusChange() {
+    console.log('你好');
   }
 }
 

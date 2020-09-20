@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import BaseInfo from '../components/BaseInfo.js';
+import { connect } from 'umi';
+import moment from 'moment';
 
 import {
   Card,
@@ -14,48 +16,26 @@ import {
   DatePicker,
   List,
   Avatar,
+  Progress,
+  Menu,
+  Dropdown,
 } from 'antd';
 import '../../static/css/index.css';
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, DownOutlined } from '@ant-design/icons';
 
 class BasicList extends Component {
-  extraContent = (
-    <div>
-      <Radio.Group
-        onChange={this.handleStatusChange.bind(this)}
-        defaultValue="a"
-      >
-        <Radio.Button value="a">全部</Radio.Button>
-        <Radio.Button value="b">进行中</Radio.Button>
-        <Radio.Button value="c">等待中</Radio.Button>
-      </Radio.Group>
-      <Input.Search
-        placeholder="input search text"
-        onSearch={value => console.log(value)}
-        style={{ width: '300px', marginLeft: '20px' }}
-      />
-    </div>
-  );
-
-  data = [
-    {
-      title: 'Ant Design Title 1',
-    },
-    {
-      title: 'Ant Design Title 2',
-    },
-    {
-      title: 'Ant Design Title 3',
-    },
-    {
-      title: 'Ant Design Title 4',
-    },
-  ];
   state = {
     loading: false,
     visible: false,
   };
+  formRef = React.createRef();
 
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'list/getInitValues',
+      payload: {},
+    });
+  }
   render() {
     const layout = {
       labelCol: {
@@ -65,6 +45,46 @@ class BasicList extends Component {
         span: 14,
       },
     };
+    const extraContent = (
+      <div>
+        <Radio.Group
+          onChange={this.handleStatusChange.bind(this)}
+          defaultValue="a"
+        >
+          <Radio.Button value="a">全部</Radio.Button>
+          <Radio.Button value="b">进行中</Radio.Button>
+          <Radio.Button value="c">等待中</Radio.Button>
+        </Radio.Group>
+        <Input.Search
+          placeholder="input search text"
+          onSearch={value => console.log(value)}
+          style={{ width: '300px', marginLeft: '20px' }}
+        />
+      </div>
+    );
+    const menu = (
+      <Menu>
+        <Menu.Item>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="http://www.alipay.com/"
+          >
+            编辑
+          </a>
+        </Menu.Item>
+        <Menu.Item>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="http://www.taobao.com/"
+          >
+            删除
+          </a>
+        </Menu.Item>
+      </Menu>
+    );
+
     return (
       <div>
         <BaseInfo
@@ -99,8 +119,8 @@ class BasicList extends Component {
         </Card>
         <Card
           title="基本列表"
-          style={{ margin: '20px 20px' }}
-          extra={this.extraContent}
+          style={{ margin: '20px 20px', padding: '0 20px' }}
+          extra={extraContent}
         >
           <Button type="dashed" onClick={this.showModal} block>
             <PlusOutlined /> 添加
@@ -125,7 +145,7 @@ class BasicList extends Component {
             ]}
             width={650}
           >
-            <Form {...layout}>
+            <Form {...layout} ref={this.formRef}>
               <Form.Item
                 name="taskName"
                 label="任务名称"
@@ -172,21 +192,48 @@ class BasicList extends Component {
             </Form>
           </Modal>
           <List
+            pagination={true}
             itemLayout="horizontal"
-            dataSource={this.data}
+            dataSource={this.props.data}
             renderItem={item => (
-              <List.Item>
+              <List.Item className="basic-list">
                 <List.Item.Meta
-                  avatar={
-                    <Avatar
-                      size={48}
-                      shape="square"
-                      src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                    />
-                  }
+                  avatar={<Avatar size={48} shape="square" src={item.avatar} />}
                   title={<a href="https://ant.design">{item.title}</a>}
-                  description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                  description={item.subDescription}
+                  style={{
+                    flexGrow: '1',
+                    flexShrink: '1',
+                    flexBasis: '0%',
+                  }}
                 />
+
+                <div className="basic-list-items">
+                  <div>
+                    <span>owner</span>
+                    <p>{item.owner}</p>
+                  </div>
+                  <div>
+                    <span>开始时间</span>
+                    <p>{moment(item.updatedAt).format('YYYY-MM-DD HH:mm')}</p>
+                  </div>
+                  <div>
+                    <Progress percent={item.percent} status="active" />
+                  </div>
+                </div>
+                <div>
+                  <Button type="link" htmlType="button">
+                    编辑
+                  </Button>
+                  <Dropdown overlay={menu}>
+                    <a
+                      className="ant-dropdown-link"
+                      onClick={e => e.preventDefault()}
+                    >
+                      更多 <DownOutlined />
+                    </a>
+                  </Dropdown>
+                </div>
               </List.Item>
             )}
           />
@@ -197,6 +244,7 @@ class BasicList extends Component {
   handleStatusChange() {
     console.log('你好');
   }
+
   showModal = () => {
     this.setState({
       visible: true,
@@ -204,9 +252,18 @@ class BasicList extends Component {
   };
   handleOk = () => {
     this.setState({ loading: true });
-    setTimeout(() => {
-      this.setState({ loading: false, visible: false });
-    }, 3000);
+    this.formRef.current
+      .validateFields()
+      .then(value => {
+        //发请求,增加一条内容
+        //dispatch();
+        //更新loading、visible状态
+        this.setState({ loading: false, visible: false });
+      })
+      .catch(err => {
+        // 重新将loading设置为false
+        this.setState({ loading: false });
+      });
   };
 
   handleCancel = () => {
@@ -214,4 +271,10 @@ class BasicList extends Component {
   };
 }
 
-export default BasicList;
+const mapStateToProps = ({ list }) => {
+  return {
+    data: list.data,
+  };
+};
+
+export default connect(mapStateToProps, null)(BasicList);

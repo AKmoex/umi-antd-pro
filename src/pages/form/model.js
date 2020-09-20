@@ -12,7 +12,8 @@ export default {
       let x = yield call(get, {
         a: 2,
       });
-      debugger;
+
+      //debugger;
       //   yield put({
       //     type: 'setState',
       //     payload: {

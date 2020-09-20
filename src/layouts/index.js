@@ -56,7 +56,9 @@ class SiderDemo extends React.Component {
               <Menu.Item key="7">
                 <Link to="/list/basic-list">标准列表</Link>
               </Menu.Item>
-              <Menu.Item key="8">Team 2</Menu.Item>
+              <Menu.Item key="8">
+                <Link to="/list/card-list">卡片列表</Link>
+              </Menu.Item>{' '}
             </SubMenu>
             <Menu.Item key="9" icon={<FileOutlined />} />
           </Menu>

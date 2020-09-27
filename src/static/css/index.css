@@ -61,3 +61,17 @@
   align-items: center;
   justify-content: space-between;
 }
+
+.contentLink {
+  margin-top: 20px;
+  box-sizing: border-box;
+}
+
+.contentLink a {
+  margin-right: 32px;
+  transition: color 0.3s;
+}
+
+.contentLink a img {
+  margin-right: 10px;
+}

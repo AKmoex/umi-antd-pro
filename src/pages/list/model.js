@@ -5,6 +5,7 @@ export default {
   state: {},
   effects: {
     *getInitValues({ payload }, { put, call }) {
+      console.log('是的');
       let res = yield call(getInitValues, {});
       yield put({
         type: 'initState',

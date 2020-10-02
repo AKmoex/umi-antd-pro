@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import BaseInfo from '../components/BaseInfo.js';
 import { connect } from 'umi';
 
 import {
@@ -19,6 +18,11 @@ import {
   Breadcrumb,
 } from 'antd';
 import '../../static/css/index.css';
+import {
+  EditOutlined,
+  EllipsisOutlined,
+  SettingOutlined,
+} from '@ant-design/icons';
 
 class BaseHeader extends Component {
   render() {
@@ -90,13 +94,49 @@ class BaseHeader extends Component {
 }
 
 class CardList extends Component {
+  componentDidMount() {
+    console.log('你');
+    this.props.dispatch({
+      type: 'list/getInitValues',
+      payload: {},
+    });
+  }
   render() {
+    console.log(this.props);
     return (
       <div>
         <BaseHeader />
+        <Row gutter={16}>
+          {this.props.data.map((item, index) => {
+            return (
+              <Col span={6}>
+                <Card
+                  key={index}
+                  style={{ width: 300, marginTop: 16 }}
+                  actions={[
+                    <SettingOutlined key="setting">操作一</SettingOutlined>,
+                    <EditOutlined key="edit" />,
+                  ]}
+                  hoverable={true}
+                >
+                  <Card.Meta
+                    avatar={<Avatar src={item.avatar} size={48} />}
+                    title={item.title}
+                    description={item.description}
+                    className="cardContnet"
+                  />
+                </Card>
+              </Col>
+            );
+          })}
+        </Row>
       </div>
     );
   }
 }
-
-export default connect()(CardList);
+const mapStateToProps = ({ list }) => {
+  return {
+    data: list.data || [],
+  };
+};
+export default connect(mapStateToProps, null)(CardList);

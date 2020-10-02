@@ -10,8 +10,17 @@ import {
   Select,
   Button,
   Space,
+  Tooltip,
 } from 'antd';
-import { DownOutlined, UpOutlined } from '@ant-design/icons';
+import {
+  DownOutlined,
+  UpOutlined,
+  PlusOutlined,
+  ReloadOutlined,
+  CompressOutlined,
+  SettingOutlined,
+  FullscreenOutlined,
+} from '@ant-design/icons';
 
 class TableList extends Component {
   state = {
@@ -29,6 +38,25 @@ class TableList extends Component {
         span: 15,
       },
     };
+    const cardExtraConten = (
+      <div>
+        <Button type="primary" icon={<PlusOutlined />}>
+          新建
+        </Button>
+        <Tooltip title="刷新">
+          <Button type="text" icon={<ReloadOutlined />}></Button>
+        </Tooltip>
+        <Tooltip title="密度">
+          <Button type="text" icon={<CompressOutlined />}></Button>
+        </Tooltip>
+        <Tooltip title="列设置">
+          <Button type="text" icon={<SettingOutlined />}></Button>
+        </Tooltip>
+        <Tooltip title="全屏">
+          <Button type="text" icon={<FullscreenOutlined />}></Button>
+        </Tooltip>
+      </div>
+    );
     return (
       <div>
         <BaseInfo title="查询表格" BreadcrumbList={['列表页', '查询表格']} />
@@ -89,6 +117,13 @@ class TableList extends Component {
             </Row>
           </Form>
         </Card>
+        <Card
+          style={{
+            margin: '20px 20px',
+          }}
+          title="查询表格"
+          extra={cardExtraConten}
+        ></Card>
       </div>
     );
   }

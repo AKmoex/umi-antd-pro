@@ -11,6 +11,7 @@ import {
   Button,
   Space,
   Tooltip,
+  Table,
 } from 'antd';
 import {
   DownOutlined,
@@ -21,13 +22,28 @@ import {
   SettingOutlined,
   FullscreenOutlined,
 } from '@ant-design/icons';
+import { connect } from 'umi';
+import moment from 'moment';
 
 class TableList extends Component {
   state = {
     isShow: false,
     isFold: true,
+    loading: false,
   };
 
+  componentDidMount() {
+    this.setState({ loading: true });
+
+    this.props
+      .dispatch({
+        type: 'list/getTableValues',
+        payload: {},
+      })
+      .then(() => {
+        this.setState({ loading: false });
+      });
+  }
   render() {
     const formRef = React.createRef();
     const layout = {
@@ -57,6 +73,47 @@ class TableList extends Component {
         </Tooltip>
       </div>
     );
+    const columns = [
+      {
+        title: '规则名称',
+        dataIndex: 'ruleName',
+        render: text => <a>{text}</a>,
+      },
+      {
+        title: '描述',
+        dataIndex: 'desc',
+      },
+      {
+        title: '服务调用次数',
+        dataIndex: 'callNo',
+        sorter: {
+          compare: (a, b) => a.callNo - b.callNo,
+          multiple: 1,
+        },
+      },
+      {
+        title: '状态',
+        dataIndex: 'status',
+        sorter: {
+          compare: (a, b) => a.english - b.english,
+          multiple: 1,
+        },
+      },
+      {
+        title: '上次调度时间',
+        dataIndex: 'callTime',
+        render: text => {
+          return moment(text).format('YYYY-MM-DD HH:mm');
+        },
+        sorter: {
+          compare: (a, b) => a.callTime - b.callTime,
+          multiple: 1,
+        },
+      },
+    ];
+
+    const data = this.props.tableValues;
+
     return (
       <div>
         <BaseInfo title="查询表格" BreadcrumbList={['列表页', '查询表格']} />
@@ -123,7 +180,14 @@ class TableList extends Component {
           }}
           title="查询表格"
           extra={cardExtraConten}
-        ></Card>
+        >
+          <Table
+            columns={columns}
+            dataSource={data}
+            style={{ marginTop: '-22px' }}
+            loading={this.state.loading}
+          />
+        </Card>
       </div>
     );
   }
@@ -136,4 +200,10 @@ class TableList extends Component {
   };
 }
 
-export default TableList;
+const mapStateToProps = ({ list }) => {
+  return {
+    tableValues: list.tableValues,
+  };
+};
+
+export default connect(mapStateToProps, null)(TableList);

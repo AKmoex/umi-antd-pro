@@ -6,3 +6,10 @@ export async function getInitValues() {
   );
   return res;
 }
+
+export async function getTableValues() {
+  let res = await axios.get(
+    'https://proapi.azurewebsites.net//api/rule?current=1',
+  );
+  return res;
+}
